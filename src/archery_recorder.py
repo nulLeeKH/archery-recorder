@@ -35,8 +35,9 @@ def main(cap, writer, q, prev_time, avgfps, flag_recording):
     key_input = cv2.waitKey(1)&0xFF
 
     if key_input == 27:
+        if writer != None:
+            writer.release()
         cap.release()
-        writer.release()
         cv2.destroyAllWindows()
         exit()
     elif key_input ==32:
