@@ -1,6 +1,8 @@
 #!/usr/bin/env python3
 
 """
+version : v1.0.0-alpha
+
 MIT License
 
 Copyright (c) 2020 Kyung-ha Lee <i_am@nulleekh.com>
