@@ -87,6 +87,8 @@ def main(cap, writer, q, prev_time, avgfps, flag_recording):
         threading.Timer(0.0001, main(cap, writer, q, crnt_time, avgfps, flag_recording)).start()
     except RecursionError:
         pass
+    except Exception as ex:
+        print('exception: ' + ex)
 
 
 cap = cv2.VideoCapture(0)
