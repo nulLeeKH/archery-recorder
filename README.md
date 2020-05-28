@@ -18,3 +18,6 @@ Check other tools in [robin-hood-project](https://github.com/nulLeeKH/robin-hood
 
 ### v1.0.0-alpha
 - Initial release
+
+### v1.0.1-alpha
+- Add exception handler while threading.
