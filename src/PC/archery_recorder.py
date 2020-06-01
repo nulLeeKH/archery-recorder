@@ -32,10 +32,8 @@ import time
 from datetime import datetime
 import queue
 
-monitoring_delay = 5
 
-
-def main(cap, writer, q, prev_time, avgfps, flag_recording):
+def main(cap, writer, q, prev_time, avgfps, flag_recording, delay):
     ret, img_color = cap.read()
 
     crnt_time = time.time()
@@ -46,15 +44,16 @@ def main(cap, writer, q, prev_time, avgfps, flag_recording):
     if ret == True:
         if flag_recording:
             writer.write(img_color)
-        if q.qsize() >= avgfps * monitoring_delay:
+        if q.qsize() > avgfps * delay:
             q.put(img_color)
-            while q.qsize() >= avgfps * monitoring_delay:
+            while q.qsize() > avgfps * delay:
                 img_color = q.get()
 
                 cv2.namedWindow("Preview", cv2.WND_PROP_FULLSCREEN)
                 cv2.setWindowProperty("Preview", cv2.WND_PROP_FULLSCREEN, cv2.WINDOW_FULLSCREEN)
-                cv2.putText(img_color, str(int(avgfps)), (0, 33), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0))
-                cv2.putText(img_color, 'REC-O' if flag_recording else 'REC-X', (0, 66), cv2.FONT_HERSHEY_SIMPLEX, 1,
+                cv2.putText(img_color, 'FPS: ' + str(int(avgfps)), (0, 33), cv2.FONT_HERSHEY_SIMPLEX, 0.9, (0, 255, 0))
+                cv2.putText(img_color, 'Delay: ' + str(delay), (0, 66), cv2.FONT_HERSHEY_SIMPLEX, 0.9, (0, 255, 0))
+                cv2.putText(img_color, 'REC-O' if flag_recording else 'REC-X', (0, 99), cv2.FONT_HERSHEY_SIMPLEX, 0.9,
                             (0, 255, 0))
                 cv2.imshow("Preview", img_color)
         else:
@@ -82,9 +81,13 @@ def main(cap, writer, q, prev_time, avgfps, flag_recording):
             fourcc = cv2.VideoWriter_fourcc(*'XVID')
             writer = cv2.VideoWriter('archery_video-' + str(datetime.today().strftime("%Y%M%d%H%M%S")) + '.avi', fourcc,
                                      avgfps, (width, height))
+    elif key_input == 125:
+        delay -= 1
+    elif key_input == 126:
+        delay += 1
 
     try:
-        threading.Timer(0.0001, main(cap, writer, q, crnt_time, avgfps, flag_recording)).start()
+        threading.Timer(0.0001, main(cap, writer, q, crnt_time, avgfps, flag_recording, delay)).start()
     except RecursionError:
         pass
     except Exception as ex:
@@ -95,4 +98,4 @@ cap = cv2.VideoCapture(0)
 
 q = queue.Queue()
 
-main(cap, None, q, 0, 0, False)
+main(cap, None, q, 0, 0, False, 0)
