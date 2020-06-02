@@ -101,10 +101,8 @@ def main(cap, writer, q, prev_time, avgfps, flag_recording, delay):
 cap = cv2.VideoCapture(0)
 
 # SD
-'''
 cap.set(3, 720)
 cap.set(4, 480)
-'''
 
 # HD
 '''
