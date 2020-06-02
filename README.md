@@ -21,3 +21,8 @@ Check other tools in [robin-hood-project](https://github.com/nulLeeKH/robin-hood
 
 ### v1.0.1-alpha
 - Add exception handler while threading.
+
+### v1.0.2-alpha
+- Add delay adjust feature.
+- Add rotate code as comment for device.
+- Add resolution adjust code as comment and set default as SD.

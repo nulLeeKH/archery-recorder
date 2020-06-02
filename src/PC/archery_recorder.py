@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 """
-version : v1.0.1-alpha
+version : v1.0.2-alpha
 
 MIT License
 
