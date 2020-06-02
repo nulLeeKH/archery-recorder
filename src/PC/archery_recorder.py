@@ -35,6 +35,7 @@ import queue
 
 def main(cap, writer, q, prev_time, avgfps, flag_recording, delay):
     ret, img_color = cap.read()
+    # rotate: img_color = cv2.flip(img_color, -1)  
 
     crnt_time = time.time()
     interval = crnt_time - prev_time
@@ -55,6 +56,9 @@ def main(cap, writer, q, prev_time, avgfps, flag_recording, delay):
                 cv2.putText(img_color, 'Delay: ' + str(delay), (0, 66), cv2.FONT_HERSHEY_SIMPLEX, 0.9, (0, 255, 0))
                 cv2.putText(img_color, 'REC-O' if flag_recording else 'REC-X', (0, 99), cv2.FONT_HERSHEY_SIMPLEX, 0.9,
                             (0, 255, 0))
+
+                # rotate: img_color = cv2.flip(img_color, -1)
+
                 cv2.imshow("Preview", img_color)
         else:
             q.put(img_color)
