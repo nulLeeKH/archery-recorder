@@ -100,6 +100,36 @@ def main(cap, writer, q, prev_time, avgfps, flag_recording, delay):
 
 cap = cv2.VideoCapture(0)
 
+# SD
+'''
+cap.set(3, 720)
+cap.set(4, 480)
+'''
+
+# HD
+'''
+cap.set(3, 1280)
+cap.set(4, 720)
+'''
+
+# HD
+'''
+cap.set(3, 1920)
+cap.set(4, 1080)
+'''
+
+# QHD
+'''
+cap.set(3, 2560)
+cap.set(4, 1440)
+'''
+
+# UHD
+'''
+cap.set(3, 3840)
+cap.set(4, 2160)
+'''
+
 q = queue.Queue()
 
 main(cap, None, q, 0, 0, False, 0)
