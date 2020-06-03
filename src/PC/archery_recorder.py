@@ -29,11 +29,11 @@ SOFTWARE.
 import cv2
 import threading
 import time
-from datetime import datetime
 import queue
+import os.path
 
 
-def main(cap, writer, q, prev_time, avgfps, flag_recording, delay):
+def main(cap, writer, q, prev_time, avgfps, flag_recording, delay, file_number):
     ret, img_color = cap.read()
     # rotate: img_color = cv2.flip(img_color, -1)  
 
@@ -83,7 +83,14 @@ def main(cap, writer, q, prev_time, avgfps, flag_recording, delay):
             height = int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT))
 
             fourcc = cv2.VideoWriter_fourcc(*'XVID')
-            writer = cv2.VideoWriter('archery_video-' + str(datetime.today().strftime("%Y%M%d%H%M%S")) + '.avi', fourcc,
+
+            file_number += 1
+            file_name = 'archery_video-' + str(file_number) + '.avi'
+            while os.path.isfile(file_name):
+                file_number += 1
+                file_name = 'archery_video-' + str(file_number) + '.avi'
+
+            writer = cv2.VideoWriter(file_name, fourcc,
                                      avgfps, (width, height))
     elif key_input == 125:
         delay -= 1
@@ -130,4 +137,4 @@ cap.set(4, 2160)
 
 q = queue.Queue()
 
-main(cap, None, q, 0, 0, False, 0)
+main(cap, None, q, 0, 0, False, 0, 0)
