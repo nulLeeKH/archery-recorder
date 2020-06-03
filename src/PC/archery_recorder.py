@@ -49,6 +49,8 @@ def main(cap, writer, q, prev_time, avgfps, flag_recording, delay, file_number):
             while q.qsize() > avgfps * delay:
                 img_color = q.get()
 
+                img_color = cv2.flip(img_color, 1)
+
                 cv2.namedWindow("Preview", cv2.WND_PROP_FULLSCREEN)
                 cv2.setWindowProperty("Preview", cv2.WND_PROP_FULLSCREEN, cv2.WINDOW_FULLSCREEN)
                 cv2.putText(img_color, 'FPS: ' + str(int(avgfps)), (0, 33), cv2.FONT_HERSHEY_SIMPLEX, 0.9, (0, 255, 0))
