@@ -27,7 +27,6 @@ SOFTWARE.
 """
 
 import cv2
-import threading
 import time
 import queue
 import os.path
@@ -98,7 +97,7 @@ def main(cap, writer, q, prev_time, avgfps, flag_recording, delay, file_number):
         delay += 1
 
     try:
-        threading.Timer(0.0001, main(cap, writer, q, crnt_time, avgfps, flag_recording, delay)).start()
+        main(cap, writer, q, crnt_time, avgfps, flag_recording, delay, file_number)
     except RecursionError:
         pass
     except Exception as ex:
