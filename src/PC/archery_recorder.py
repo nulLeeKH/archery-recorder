@@ -101,7 +101,7 @@ def main(cap, writer, q, prev_time, avgfps, flag_recording, delay, file_number):
     except RecursionError:
         pass
     except Exception as ex:
-        print('exception: ' + ex)
+        print('exception: ' + str(ex))
 
 
 cap = cv2.VideoCapture(0)
