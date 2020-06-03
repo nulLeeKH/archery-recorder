@@ -26,3 +26,8 @@ Check other tools in [robin-hood-project](https://github.com/nulLeeKH/robin-hood
 - Add delay adjust feature.
 - Add rotate code as comment for device.
 - Add resolution adjust code as comment and set default as SD.
+
+### v1.0.3-alpha
+- Change video file naming convention.
+- Remove pointless threading for performance.
+- Fix exception printing feature.
