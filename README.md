@@ -31,3 +31,7 @@ Check other tools in [robin-hood-project](https://github.com/nulLeeKH/robin-hood
 - Change video file naming convention.
 - Remove pointless threading for performance.
 - Fix exception printing feature.
+
+### v1.0.4-alpha
+- Apply mirror mode while monitoring.
+- Modify information monitoring texts.
