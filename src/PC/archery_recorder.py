@@ -96,10 +96,10 @@ def main(cap, writer, q, prev_time, avgfps, flag_recording, delay, file_number, 
                 cv2.setWindowProperty("Preview", cv2.WND_PROP_FULLSCREEN, cv2.WINDOW_FULLSCREEN)
                 cv2.putText(img_color, 'REC-O' if flag_recording else 'REC-X', (0, 33), cv2.FONT_HERSHEY_SIMPLEX, 0.9,
                             (0, 0, 255) if flag_recording else (0, 255, 0))
-                cv2.putText(img_color, 'FPS: ' + str(int(avgfps)), (0, 66), cv2.FONT_HERSHEY_SIMPLEX, 0.6, (0, 255, 0))
-                cv2.putText(img_color, 'Delay: ' + str(delay), (99, 66), cv2.FONT_HERSHEY_SIMPLEX, 0.6, (0, 255, 0))
-                cv2.putText(img_color, 'SD' if resolution == 0 else 'HD' if resolution == 1 else 'FHD' if resolution == 2 else '2K' if resolution == 3 else 'QHD' if resolution == 4 else 'UHD' if resolution == 5 else '4K' if resolution == 6 else '8K', (0, 99), cv2.FONT_HERSHEY_SIMPLEX, 0.6, (0, 255, 0))
-                cv2.putText(img_color, 'Camera No. ' + str(camera), (99, 99), cv2.FONT_HERSHEY_SIMPLEX, 0.6, (0, 255, 0))
+                cv2.putText(img_color, 'Cam: ' + str(camera), (0, 66), cv2.FONT_HERSHEY_SIMPLEX, 0.6, (0, 255, 0))
+                cv2.putText(img_color, 'SD' if resolution == 0 else 'HD' if resolution == 1 else 'FHD' if resolution == 2 else '2K' if resolution == 3 else 'QHD' if resolution == 4 else 'UHD' if resolution == 5 else '4K' if resolution == 6 else '8K', (99, 66), cv2.FONT_HERSHEY_SIMPLEX, 0.6, (0, 255, 0))
+                cv2.putText(img_color, 'FPS: ' + str(int(avgfps)), (0, 99), cv2.FONT_HERSHEY_SIMPLEX, 0.6, (0, 255, 0))
+                cv2.putText(img_color, 'Delay: ' + str(delay), (99, 99), cv2.FONT_HERSHEY_SIMPLEX, 0.6, (0, 255, 0))
 
                 # rotate: img_color = cv2.flip(img_color, -1)
 
