@@ -32,7 +32,17 @@ import queue
 import os.path
 
 
-def main(cap, writer, q, prev_time, avgfps, flag_recording, delay, file_number, change_resolution, resolution):
+def main(cap, writer, q, prev_time, avgfps, flag_recording, delay, file_number, change_resolution, resolution, change_camera, camera):
+    if change_camera == True:
+        if cap != None:
+            cap.release()
+
+        cap = cv2.VideoCapture(camera)
+        perv_camera = camera
+
+        change_resolution = True
+        change_camera = False
+
     if change_resolution == True:
         while q.qsize():
             q.get()
@@ -61,6 +71,7 @@ def main(cap, writer, q, prev_time, avgfps, flag_recording, delay, file_number, 
         elif resolution == 7:
             cap.set(3, 8192)
             cap.set(4, 4320)
+
         change_resolution = False
 
     ret, img_color = cap.read()
@@ -88,6 +99,7 @@ def main(cap, writer, q, prev_time, avgfps, flag_recording, delay, file_number, 
                 cv2.putText(img_color, 'FPS: ' + str(int(avgfps)), (0, 66), cv2.FONT_HERSHEY_SIMPLEX, 0.6, (0, 255, 0))
                 cv2.putText(img_color, 'Delay: ' + str(delay), (99, 66), cv2.FONT_HERSHEY_SIMPLEX, 0.6, (0, 255, 0))
                 cv2.putText(img_color, 'SD' if resolution == 0 else 'HD' if resolution == 1 else 'FHD' if resolution == 2 else '2K' if resolution == 3 else 'QHD' if resolution == 4 else 'UHD' if resolution == 5 else '4K' if resolution == 6 else '8K', (0, 99), cv2.FONT_HERSHEY_SIMPLEX, 0.6, (0, 255, 0))
+                cv2.putText(img_color, 'Camera No. ' + str(camera), (99, 99), cv2.FONT_HERSHEY_SIMPLEX, 0.6, (0, 255, 0))
 
                 # rotate: img_color = cv2.flip(img_color, -1)
 
@@ -124,6 +136,9 @@ def main(cap, writer, q, prev_time, avgfps, flag_recording, delay, file_number, 
 
             writer = cv2.VideoWriter(file_name, fourcc,
                                      avgfps, (width, height))
+    elif 48 <= key_input and key_input <= 57:
+        change_camera = True
+        camera = key_input-48
     elif key_input == 123:
         change_resolution = True
         resolution -= 1
@@ -143,15 +158,13 @@ def main(cap, writer, q, prev_time, avgfps, flag_recording, delay, file_number, 
         resolution = 7
 
     try:
-        main(cap, writer, q, crnt_time, avgfps, flag_recording, delay, file_number, change_resolution, resolution)
+        main(cap, writer, q, crnt_time, avgfps, flag_recording, delay, file_number, change_resolution, resolution, change_camera, camera)
     except RecursionError:
         pass
     except Exception as ex:
         print('exception: ' + str(ex))
 
 
-cap = cv2.VideoCapture(0)
-
 q = queue.Queue()
 
-main(cap, None, q, 0, 0, False, 0, 0, True, 0)
+main(None, None, q, 0, 0, False, 0, 0, True, 0, True, 0)
