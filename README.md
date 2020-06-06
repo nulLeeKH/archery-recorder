@@ -35,3 +35,7 @@ Check other tools in [robin-hood-project](https://github.com/nulLeeKH/robin-hood
 ### v1.0.4-alpha
 - Apply mirror mode while monitoring.
 - Modify information monitoring texts.
+
+### v1.0.5-alpha
+- Add resolution and camera adjust feature.
+- Modify texts in screen.
