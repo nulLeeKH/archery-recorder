@@ -10,6 +10,16 @@ The video monitoring and recording program for archer
     - Start/Stop recording
 - ESC
     - End program
+- up
+    - Increase monitoring delay time
+- down
+    - Decrease monitoring delay time
+- left
+    - Decrease recording resolution
+- right
+    - Increase recording resolution
+- 0~9
+    - Change camera device
 
 ## Other Tools
 Check other tools in [robin-hood-project](https://github.com/nulLeeKH/robin-hood-project!)!
