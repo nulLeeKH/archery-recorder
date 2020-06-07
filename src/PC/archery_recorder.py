@@ -139,15 +139,15 @@ def main(cap, writer, q, prev_time, avgfps, flag_recording, delay, file_number, 
     elif 48 <= key_input and key_input <= 57:
         change_camera = True
         camera = key_input-48
-    elif key_input == 123:
+    elif key_input == 123 or key_input == 108:
         change_resolution = True
         resolution -= 1
-    elif key_input == 124:
+    elif key_input == 124 or key_input == 104:
         change_resolution = True
         resolution += 1
-    elif key_input == 125:
+    elif key_input == 125 or key_input == 100:
         delay -= 1
-    elif key_input == 126:
+    elif key_input == 126 or key_input == 117:
         delay += 1
 
     if resolution < 0:
