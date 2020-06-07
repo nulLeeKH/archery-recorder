@@ -157,6 +157,9 @@ def main(cap, writer, q, prev_time, avgfps, flag_recording, delay, file_number, 
         change_resolution = False
         resolution = 7
 
+    if delay < 0:
+        delay = 0
+
     try:
         main(cap, writer, q, crnt_time, avgfps, flag_recording, delay, file_number, change_resolution, resolution, change_camera, camera)
     except RecursionError:
