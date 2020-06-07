@@ -134,7 +134,7 @@ def main(cap, writer_normal, writer_slow_2, q, prev_time, avgfps, flag_recording
 
     key_input = cv2.waitKey(1) & 0xFF
 
-    if key_input == 27:
+    if key_input == 27 or key_input == 101:
         if writer_normal != None:
             writer_normal.release()
         if writer_slow_2 != None:
