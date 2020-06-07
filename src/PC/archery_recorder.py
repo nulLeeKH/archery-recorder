@@ -151,12 +151,12 @@ def main(cap, writer, q, prev_time, avgfps, flag_recording, delay, file_number, 
             fourcc = cv2.VideoWriter_fourcc(*'XVID')
 
             file_number += 1
-            file_name = 'archery_video-' + str(file_number) + '.avi'
+            file_name = 'archery_video-' + str(file_number)
             while os.path.isfile(file_name):
                 file_number += 1
-                file_name = 'archery_video-' + str(file_number) + '.avi'
+                file_name = 'archery_video-' + str(file_number)
 
-            writer = cv2.VideoWriter(file_name, fourcc,
+            writer = cv2.VideoWriter(file_name + '.avi', fourcc,
                                      avgfps, (width, height))
     elif 48 <= key_input and key_input <= 57:
         change_camera = True
