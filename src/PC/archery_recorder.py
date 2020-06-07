@@ -142,7 +142,7 @@ def main(cap, writer_normal, writer_slow_2, q, prev_time, avgfps, flag_recording
         cap.release()
         cv2.destroyAllWindows()
         exit()
-    elif key_input == 32:
+    elif key_input == 32 or key_input == 114:
         if flag_recording == True:
             flag_recording = False
 
@@ -166,7 +166,6 @@ def main(cap, writer_normal, writer_slow_2, q, prev_time, avgfps, flag_recording
                                      avgfps, (width, height))
             writer_slow_2 = cv2.VideoWriter(file_name + '@2.avi', fourcc,
                                      avgfps/2, (width, height))
-
     elif 48 <= key_input and key_input <= 57:
         change_camera = True
         prev_camera = camera
