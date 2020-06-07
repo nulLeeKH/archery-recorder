@@ -22,7 +22,7 @@ The video monitoring and recording program for archer
     - Change camera device
 
 ## Other Tools
-Check other tools in [robin-hood-project](https://github.com/nulLeeKH/robin-hood-project!)!
+Check other tools in [robin-hood-project](https://github.com/nulLeeKH/robin-hood-project)!
 
 ## Patch Note
 
