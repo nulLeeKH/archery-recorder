@@ -32,13 +32,31 @@ import queue
 import os.path
 
 
-def main(cap, writer, q, prev_time, avgfps, flag_recording, delay, file_number, change_resolution, resolution, change_camera, camera):
+def main(cap, writer, q, prev_time, avgfps, flag_recording, delay, file_number, change_resolution, resolution, change_camera, prev_camera, camera):
     if change_camera == True:
         if cap != None:
             cap.release()
 
-        cap = cv2.VideoCapture(camera)
-        perv_camera = camera
+        cap = cv2.VideoCapture(camera, cv2.CAP_DSHOW)
+        if cap.isOpened() == False:
+            camera = prev_camera
+            cap = cv2.VideoCapture(camera, cv2.CAP_DSHOW)
+            temp_camera = 0
+            while(cap.isOpened() == False):
+                if temp_camera == 10:
+                    print("ERROR: Can not find available camera device!")
+                    if writer != None:
+                        writer.release()
+                    cap.release()
+                    cv2.destroyAllWindows()
+                    exit()
+
+                camera = temp_camera
+                cap = cv2.VideoCapture(camera)
+
+                temp_camera += 1
+                
+        prev_camera = camera
 
         change_resolution = True
         change_camera = False
@@ -142,6 +160,7 @@ def main(cap, writer, q, prev_time, avgfps, flag_recording, delay, file_number, 
                                      avgfps, (width, height))
     elif 48 <= key_input and key_input <= 57:
         change_camera = True
+        prev_camera = camera
         camera = key_input-48
     elif key_input == 123 or key_input == 108:
         change_resolution = True
@@ -165,7 +184,7 @@ def main(cap, writer, q, prev_time, avgfps, flag_recording, delay, file_number, 
         delay = 0
 
     try:
-        main(cap, writer, q, crnt_time, avgfps, flag_recording, delay, file_number, change_resolution, resolution, change_camera, camera)
+        main(cap, writer, q, crnt_time, avgfps, flag_recording, delay, file_number, change_resolution, resolution, change_camera, prev_camera, camera)
     except RecursionError:
         pass
     except Exception as ex:
@@ -174,4 +193,4 @@ def main(cap, writer, q, prev_time, avgfps, flag_recording, delay, file_number, 
 
 q = queue.Queue()
 
-main(None, None, q, 0, 0, False, 0, 0, True, 0, True, 0)
+main(None, None, q, 0, 0, False, 0, 0, True, 0, True, 1, 0)
