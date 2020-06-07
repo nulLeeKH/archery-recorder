@@ -32,7 +32,7 @@ import queue
 import os.path
 
 
-def main(cap, writer, q, prev_time, avgfps, flag_recording, delay, file_number, change_resolution, resolution, change_camera, prev_camera, camera):
+def main(cap, writer_normal, writer_slow_2, q, prev_time, avgfps, flag_recording, delay, file_number, change_resolution, resolution, change_camera, prev_camera, camera):
     if change_camera == True:
         if cap != None:
             cap.release()
@@ -45,8 +45,10 @@ def main(cap, writer, q, prev_time, avgfps, flag_recording, delay, file_number, 
             while(cap.isOpened() == False):
                 if temp_camera == 10:
                     print("ERROR: Can not find available camera device!")
-                    if writer != None:
-                        writer.release()
+                    if writer_normal != None:
+                        writer_normal.release()
+                    if writer_slow_2 != None:
+                        writer_slow_2.release()
                     cap.release()
                     cv2.destroyAllWindows()
                     exit()
@@ -106,7 +108,8 @@ def main(cap, writer, q, prev_time, avgfps, flag_recording, delay, file_number, 
 
     if ret == True:
         if flag_recording:
-            writer.write(img_color)
+            writer_normal.write(img_color)
+            writer_slow_2.write(img_color)
         if q.qsize() > avgfps * delay:
             q.put(img_color)
             while q.qsize() > avgfps * delay:
@@ -132,8 +135,10 @@ def main(cap, writer, q, prev_time, avgfps, flag_recording, delay, file_number, 
     key_input = cv2.waitKey(1) & 0xFF
 
     if key_input == 27:
-        if writer != None:
-            writer.release()
+        if writer_normal != None:
+            writer_normal.release()
+        if writer_slow_2 != None:
+            writer_slow_2.release()
         cap.release()
         cv2.destroyAllWindows()
         exit()
@@ -141,7 +146,8 @@ def main(cap, writer, q, prev_time, avgfps, flag_recording, delay, file_number, 
         if flag_recording == True:
             flag_recording = False
 
-            writer.release()
+            writer_normal.release()
+            writer_slow_2.release()
         else:
             flag_recording = True
 
@@ -152,12 +158,15 @@ def main(cap, writer, q, prev_time, avgfps, flag_recording, delay, file_number, 
 
             file_number += 1
             file_name = 'archery_video-' + str(file_number)
-            while os.path.isfile(file_name):
+            while os.path.isfile(file_name + '@1.avi') or os.path.isfile(file_name + '@2.avi'):
                 file_number += 1
                 file_name = 'archery_video-' + str(file_number)
 
-            writer = cv2.VideoWriter(file_name + '.avi', fourcc,
+            writer_normal = cv2.VideoWriter(file_name + '@1.avi', fourcc,
                                      avgfps, (width, height))
+            writer_slow_2 = cv2.VideoWriter(file_name + '@2.avi', fourcc,
+                                     avgfps/2, (width, height))
+
     elif 48 <= key_input and key_input <= 57:
         change_camera = True
         prev_camera = camera
@@ -184,7 +193,7 @@ def main(cap, writer, q, prev_time, avgfps, flag_recording, delay, file_number, 
         delay = 0
 
     try:
-        main(cap, writer, q, crnt_time, avgfps, flag_recording, delay, file_number, change_resolution, resolution, change_camera, prev_camera, camera)
+        main(cap, writer_normal, writer_slow_2, q, crnt_time, avgfps, flag_recording, delay, file_number, change_resolution, resolution, change_camera, prev_camera, camera)
     except RecursionError:
         pass
     except Exception as ex:
@@ -193,4 +202,4 @@ def main(cap, writer, q, prev_time, avgfps, flag_recording, delay, file_number, 
 
 q = queue.Queue()
 
-main(None, None, q, 0, 0, False, 0, 0, True, 0, True, 1, 0)
+main(None, None, None, q, 0, 0, False, 0, 0, True, 0, True, 1, 0)
