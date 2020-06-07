@@ -79,6 +79,10 @@ def main(cap, writer, q, prev_time, avgfps, flag_recording, delay, file_number, 
 
     crnt_time = time.time()
     interval = crnt_time - prev_time
+
+    if interval == 0:
+        interval = 1
+
     fps = 1 / interval
     avgfps = (avgfps + fps) / 2
 
