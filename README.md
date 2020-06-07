@@ -6,17 +6,17 @@
 The video monitoring and recording program for archer
 
 ## How to Use
-- space
+- space | R
     - Start/Stop recording
-- ESC
+- ESC | E
     - End program
-- up
+- up | U
     - Increase monitoring delay time
-- down
+- down | D
     - Decrease monitoring delay time
-- left
+- left | L
     - Decrease recording resolution
-- right
+- right | H
     - Increase recording resolution
 - 0~9
     - Change camera device
