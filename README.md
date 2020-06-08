@@ -10,13 +10,13 @@ The video monitoring and recording program for archer
     - Start/Stop recording
 - ESC | E
     - End program
-- up | U
+- up arrow | U
     - Increase monitoring delay time
-- down | D
+- down arrow | D
     - Decrease monitoring delay time
-- left | L
+- left arrow | L
     - Decrease recording resolution
-- right | H
+- right arrow | H
     - Increase recording resolution
 - F
     - Increase recording speed (+0.1)
