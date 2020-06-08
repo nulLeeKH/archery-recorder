@@ -18,6 +18,10 @@ The video monitoring and recording program for archer
     - Decrease recording resolution
 - right | H
     - Increase recording resolution
+- F
+    - Increase recording speed (+0.1)
+- S
+    - Decrease recording speed (-0.1)
 - 0~9
     - Change camera device
 
@@ -49,3 +53,12 @@ Check other tools in [robin-hood-project](https://github.com/nulLeeKH/robin-hood
 ### v1.0.5-alpha
 - Add resolution and camera adjust feature.
 - Modify texts in screen.
+
+### v1.0.6-alpha
+- Can Control with alphabet keys.
+- Delay does not go negative.
+- Interval does not go 0.
+- Camera validation test while selecting.
+- Change filename create logic.
+- Fix RecursionError.
+- Can change recording speed with keys.
