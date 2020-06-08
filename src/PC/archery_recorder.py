@@ -34,7 +34,8 @@ import os.path
 
 cap = None
 writer_normal = None
-writer_slow_2 = None
+writer_x_speed = None
+recording_speed = 1.0
 q = queue.Queue()
 prev_time = 0
 crnt_time = 0
@@ -64,8 +65,8 @@ while True:
                         print("ERROR: Can not find available camera device!")
                         if writer_normal != None:
                             writer_normal.release()
-                        if writer_slow_2 != None:
-                            writer_slow_2.release()
+                        if writer_x_speed != None:
+                            writer_x_speed.release()
                         cap.release()
                         cv2.destroyAllWindows()
                         exit()
@@ -127,7 +128,7 @@ while True:
         if ret == True:
             if flag_recording:
                 writer_normal.write(img_color)
-                writer_slow_2.write(img_color)
+                writer_x_speed.write(img_color)
             if q.qsize() > avgfps * delay:
                 q.put(img_color)
                 while q.qsize() > avgfps * delay:
@@ -139,6 +140,7 @@ while True:
                     cv2.setWindowProperty("Preview", cv2.WND_PROP_FULLSCREEN, cv2.WINDOW_FULLSCREEN)
                     cv2.putText(img_color, 'REC-O' if flag_recording else 'REC-X', (0, 33), cv2.FONT_HERSHEY_SIMPLEX, 0.9,
                                 (0, 0, 255) if flag_recording else (0, 255, 0))
+                    cv2.putText(img_color, 'Speed: ' + str(recording_speed), (99, 33), cv2.FONT_HERSHEY_SIMPLEX, 0.6, (0, 255, 0))
                     cv2.putText(img_color, 'Cam: ' + str(camera), (0, 66), cv2.FONT_HERSHEY_SIMPLEX, 0.6, (0, 255, 0))
                     cv2.putText(img_color, 'SD' if resolution == 0 else 'HD' if resolution == 1 else 'FHD' if resolution == 2 else '2K' if resolution == 3 else 'QHD' if resolution == 4 else 'UHD' if resolution == 5 else '4K' if resolution == 6 else '8K', (99, 66), cv2.FONT_HERSHEY_SIMPLEX, 0.6, (0, 255, 0))
                     cv2.putText(img_color, 'FPS: ' + str(int(avgfps)), (0, 99), cv2.FONT_HERSHEY_SIMPLEX, 0.6, (0, 255, 0))
@@ -155,8 +157,8 @@ while True:
         if key_input == 27 or key_input == 101:
             if writer_normal != None:
                 writer_normal.release()
-            if writer_slow_2 != None:
-                writer_slow_2.release()
+            if writer_x_speed != None:
+                writer_x_speed.release()
             cap.release()
             cv2.destroyAllWindows()
             exit()
@@ -165,7 +167,7 @@ while True:
                 flag_recording = False
 
                 writer_normal.release()
-                writer_slow_2.release()
+                writer_x_speed.release()
             else:
                 flag_recording = True
 
@@ -176,18 +178,22 @@ while True:
 
                 file_number += 1
                 file_name = 'archery_video-' + str(file_number)
-                while os.path.isfile(file_name + '@1.avi') or os.path.isfile(file_name + '@2.avi'):
+                while os.path.isfile(file_name + '.avi'):
                     file_number += 1
                     file_name = 'archery_video-' + str(file_number)
 
-                writer_normal = cv2.VideoWriter(file_name + '@1.avi', fourcc,
+                writer_normal = cv2.VideoWriter(file_name + '.avi', fourcc,
                                          avgfps, (width, height))
-                writer_slow_2 = cv2.VideoWriter(file_name + '@2.avi', fourcc,
-                                         avgfps/2, (width, height))
+                writer_x_speed = cv2.VideoWriter(file_name + '@' + str(recording_speed) + '.avi', fourcc,
+                                         avgfps*recording_speed, (width, height))
         elif 48 <= key_input and key_input <= 57:
             change_camera = True
             prev_camera = camera
             camera = key_input-48
+        elif key_input == 102 and flag_recording == False:
+            recording_speed = round(recording_speed + 0.1, 1)
+        elif key_input == 115 and flag_recording == False:
+            recording_speed = round(recording_speed - 0.1, 1)
         elif key_input == 123 or key_input == 108:
             change_resolution = True
             resolution -= 1
@@ -198,6 +204,9 @@ while True:
             delay -= 1
         elif key_input == 126 or key_input == 117:
             delay += 1
+
+        if recording_speed < 0.1:
+            recording_speed = 0.1
 
         if resolution < 0:
             change_resolution = False
