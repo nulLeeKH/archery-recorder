@@ -61,7 +61,7 @@ while True:
                 temp_camera = 0
                 while not cap.isOpened():
                     if temp_camera == 10:
-                        print("ERROR: Can not find available camera device!")
+                        print("ERROR: Can not find any available camera device!")
                         if writer_normal is not None:
                             writer_normal.release()
                         if writer_x_speed is not None:
